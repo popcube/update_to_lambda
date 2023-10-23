@@ -4,6 +4,9 @@ on: workflow_dispatch
 jobs:
   job1:
     runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_LAM_ACC_KEY }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_LAM_SEC_ACC_KEY }}
     steps:
       - uses: actions/setup-python@v3
         with:

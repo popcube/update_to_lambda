@@ -5,5 +5,13 @@ jobs:
   job1:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/setup-python@v3
+        with:
+          python-version: 3.x
       - run: |
-          echo test
+          pip install --upgrade pip --quiet
+          pip install boto3 --quiet
+          pip install requests --quiet
+      - run: python ./main.py
+          
+          

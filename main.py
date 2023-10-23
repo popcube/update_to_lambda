@@ -26,7 +26,7 @@ def main():
         FunctionName='Twitter_frontend_multi_acc_dynamodb',
         Environment={
             'Variables': {
-                'test_env': 'some_string'
+                'x_gt': gt
             }
         }
     )

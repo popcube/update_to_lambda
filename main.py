@@ -7,6 +7,9 @@ client = boto3.client('lambda')
 
 def get_token_from_texts(token_name, r_text):
     token_index = r_text.find(token_name + "=")
+    if token_index == -1:
+        print("token cannot be found")
+        sys.exit(1)
     return r_text[token_index+len(token_name + "="): r_text.find(";", token_index)]
 
 

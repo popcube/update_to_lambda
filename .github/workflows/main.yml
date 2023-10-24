@@ -19,6 +19,11 @@ jobs:
       - run: |
           pip install -U --no-index --find-links=./packages pip
           pip install --no-index --find-links=./packages -r requirements.txt
-      - run: python ./main.py
+      - uses: nick-fields/retry@v2.9.0
+        with:
+          timeout_minutes: 5
+          retry_on: error
+          max_attempts: 5
+          command: python ./main.py
           
           

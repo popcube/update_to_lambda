@@ -1,4 +1,3 @@
 pip
-charset-normalizer
 requests
 boto3

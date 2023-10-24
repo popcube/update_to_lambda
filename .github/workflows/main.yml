@@ -17,9 +17,8 @@ jobs:
           python-version: 3.x
       - uses: actions/checkout@v4
       - run: |
-          pip install --upgrade pip --quiet
-          pip install boto3 --quiet
-          pip install requests --quiet
+          pip install -U --no-index --find-links=./packages pip
+          pip install --no-index --find-links=./packages -r requirements.txt
       - run: python ./main.py
           
           

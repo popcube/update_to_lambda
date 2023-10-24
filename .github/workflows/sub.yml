@@ -1,8 +1,8 @@
-name: main
+name: sub
 on: 
   workflow_dispatch:
-  schedule:
-    - cron: '0/5 * * * *'
+  # schedule:
+  #   - cron: '0/5 * * * *'
 
 jobs:
   job1:
@@ -17,8 +17,8 @@ jobs:
           python-version: '3.x'
       - uses: actions/checkout@v4
       - run: |
-          pip install -U --no-index --find-links=./packages pip
-          pip install --no-index --find-links=./packages -r requirements.txt
+          pip install boto3
+          pip install requests
       - run: python ./main.py
           
           

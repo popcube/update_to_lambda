@@ -8,6 +8,9 @@ on:
         default: "7"
         required: false
 
+permissions:
+  actions: write
+
 jobs:
   clean-logs:
     runs-on: ubuntu-latest

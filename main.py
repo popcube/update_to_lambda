@@ -30,7 +30,7 @@ def main():
         print("gt was not included in reponse from activate url")
         print()
         print(e)
-    print("gt: " + gt)
+    print("length of gt: " + len(gt))
 
     client.update_function_configuration(
         FunctionName='Twitter_frontend_multi_acc_dynamodb',

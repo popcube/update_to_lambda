@@ -2,11 +2,12 @@ import boto3
 import requests
 import sys
 import json
+import os
 
 client = boto3.client('lambda')
 
-activate_url = "https://api.twitter.com/1.1/guest/activate.json"
-bearer_token = "AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA"
+activate_url = os.environ["ACTIVATE_URL"]
+bearer_token = os.environ["BEARER_TOKEN"]
 
 def main():
     gt = ""
@@ -14,7 +15,7 @@ def main():
     header_dic = {
         "Authorization": "Bearer " + bearer_token
     }
-    r = requests.post(activate_url,headers=header_dic)
+    r = requests.post(activate_url, headers=header_dic)
 
     if not r.ok:
         print("activate url post failed")

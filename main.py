@@ -8,6 +8,7 @@ client = boto3.client('lambda')
 
 activate_url = os.environ["ACTIVATE_URL"]
 bearer_token = os.environ["BEARER_TOKEN"]
+aws_f_name = os.environ["AWS_F_NAME"]
 
 def main():
     gt = ""
@@ -33,7 +34,7 @@ def main():
     print("length of gt: " + str(len(gt)))
 
     client.update_function_configuration(
-        FunctionName='Twitter_frontend_multi_acc_dynamodb',
+        FunctionName=aws_f_name,
         Environment={
             'Variables': {
                 'x_gt': gt

@@ -1,0 +1,28 @@
+name: main
+on: 
+  workflow_dispatch:
+  # schedule:
+  #   - cron: '0/5 * * * *'
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/popcube/x_update_gt:1.0
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_LAM_ACC_KEY }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_LAM_SEC_ACC_KEY }}
+      AWS_DEFAULT_REGION: ap-northeast-1
+      ACTIVATE_URL: ${{ secrets.ACTIVATE_URL }}
+      BEARER_TOKEN: ${{ secrets.BEARER_TOKEN }}
+      AWS_F_NAME: ${{ secrets.AWS_F_NAME }}
+    steps:
+      - uses: nick-fields/retry@v2.9.0
+        with:
+          timeout_minutes: 5
+          retry_on: error
+          max_attempts: 3
+          retry_wait_seconds: 90
+          command: python ./main.py
+          
+          

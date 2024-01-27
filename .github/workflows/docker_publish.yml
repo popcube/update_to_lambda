@@ -5,7 +5,8 @@ jobs:
   main:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - run: |
-          docker login ghcr.io -u $ -p ${{ secrets.GITHUB_TOKEN }}
+          echo -n ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $ --password-stdin
           docker build -t x_update_gt:1.0 .
           docker push ghcr.io/popcube/x_update_gt:1.0

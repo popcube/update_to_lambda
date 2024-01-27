@@ -1,0 +1,11 @@
+name: docker publish
+on: workflow_dispatch
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          docker login ghcr.io -u $ -p ${{ secret.GITHUB_TOKEN }}
+          docker build -t x_update_gt:1.0 .
+          docker push ghcr.io/popcube/x_update_gt:1.0

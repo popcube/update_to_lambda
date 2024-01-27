@@ -8,5 +8,5 @@ jobs:
       - uses: actions/checkout@v4
       - run: |
           echo -n ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $ --password-stdin
-          docker build -t x_update_gt:1.0 .
+          docker build -t ghcr.io/popcube/x_update_gt:1.0 .
           docker push ghcr.io/popcube/x_update_gt:1.0

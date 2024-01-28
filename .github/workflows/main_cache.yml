@@ -1,4 +1,4 @@
-name: main
+name: cached main
 on: 
   workflow_dispatch:
   # schedule:
@@ -16,6 +16,8 @@ jobs:
       AWS_F_NAME: ${{ secrets.AWS_F_NAME }}
 
     steps:
+      - uses: actions/checkout@v4
+      
       - uses: actions/setup-python@v3
         id: get-python
         with:

@@ -21,7 +21,6 @@ jobs:
         with:
           sparse-checkout: |
             main.py
-            requirements.txt
           sparse-checkout-cone-mode: false
 
       - uses: nick-fields/retry@v2.9.0

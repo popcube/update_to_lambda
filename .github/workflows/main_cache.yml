@@ -28,11 +28,8 @@ jobs:
         with:
           python-version: '3.x'
           cache: 'pip'
-          
 
-      - if: ${{ steps.get-python.outputs.cache-hit != 'true' }}
         run: |
-          pip install -U pip
           pip install -r requirements.txt
           
       - uses: nick-fields/retry@v2.9.0

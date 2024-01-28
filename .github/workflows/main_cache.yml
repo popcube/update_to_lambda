@@ -1,4 +1,4 @@
-name: cached main
+name: main cached
 on: 
   workflow_dispatch:
   # schedule:
@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      
+
       - uses: actions/setup-python@v3
         id: get-python
         with:

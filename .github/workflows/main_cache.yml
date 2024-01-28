@@ -17,19 +17,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            main.py
+            requirements.txt
+          sparse-checkout-cone-mode: false
 
       - uses: actions/setup-python@v5
         id: get-python
         with:
           python-version: '3.x'
           cache: 'pip'
-
-      - uses: actions/checkout@v4
-        with:
-          sparse-checkout: |
-            main.py
-            requirements.txt
-          sparse-checkout-cone-mode: false
           
 
       - if: ${{ steps.get-python.outputs.cache-hit != 'true' }}

@@ -1,4 +1,4 @@
-name: main in container
+name: main
 on: 
   workflow_dispatch:
   # schedule:
@@ -7,8 +7,6 @@ on:
 jobs:
   job1:
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/popcube/x_update_gt:1.0
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_LAM_ACC_KEY }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_LAM_SEC_ACC_KEY }}
@@ -16,9 +14,21 @@ jobs:
       ACTIVATE_URL: ${{ secrets.ACTIVATE_URL }}
       BEARER_TOKEN: ${{ secrets.BEARER_TOKEN }}
       AWS_F_NAME: ${{ secrets.AWS_F_NAME }}
+
     steps:
+      - uses: actions/setup-python@v3
+        id: get-python
+        with:
+          python-version: '3.x'
+          cache: 'pip'
+
       - uses: actions/checkout@v4
 
+      - if: ${{ steps.get-python.outputs.cache-hit != true }}
+        run: |
+          pip install -U --no-index --find-links=./packages pip
+          pip install --no-index --find-links=./packages -r requirements.txt
+          
       - uses: nick-fields/retry@v2.9.0
         with:
           timeout_minutes: 5

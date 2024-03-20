@@ -28,11 +28,12 @@ jobs:
           pip install --no-index --find-links=./packages -r requirements.txt
 
       - uses: popcube/retry@master
+        name: primary script
         id: primary_script
         with:
           timeout_minutes: 5
           retry_on: error
-          max_attempts: 1
+          max_attempts: 3
           retry_wait_seconds: 90
           continue_on_error: true
           command: python ./main.py
@@ -47,6 +48,7 @@ jobs:
 
       - uses: popcube/retry@master
         if: ${{ steps.primary_script.outputs.exit_code != 0 }}
+        name: secondary script
         with:
           timeout_minutes: 5
           retry_on: error

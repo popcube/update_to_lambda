@@ -1,0 +1,46 @@
+name: main 2
+on: 
+  workflow_dispatch:
+  # schedule:
+  #   - cron: '0/5 * * * *'
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_LAM_ACC_KEY }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_LAM_SEC_ACC_KEY }}
+      AWS_DEFAULT_REGION: ap-northeast-1
+      ACTIVATE_URL: ${{ secrets.ACTIVATE_URL }}
+      BEARER_TOKEN: ${{ secrets.BEARER_TOKEN }}
+      AWS_F_NAME: ${{ secrets.AWS_F_NAME }}
+      FULL_REPO_TOKEN: ${{ secrets.FULL_REPO_TOKEN }}
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - uses: actions/checkout@v4
+      - run: |
+          pip install -U --no-index --find-links=./packages pip
+          pip install --no-index --find-links=./packages -r requirements.txt
+      # - uses: popcube/retry@master
+      #   with:
+      #     timeout_minutes: 5
+      #     retry_on: error
+      #     max_attempts: 3
+      #     retry_wait_seconds: 90
+      #     command: python ./main.py
+      - run: |
+          some error command
+      - uses: actions/checkout@v4
+        if: ${{ failure() }}
+        with:
+          token: ${{ env.FULL_REPO_TOKEN }}
+          repositoy: "popcube/private_script_storage"
+          path: ./private_script_storage
+      - name: sub script run
+        if: ${{ failure() }}
+        run: |
+          cat ./private_script_storage/main.py
+          # python ./private_script_storage
+          

@@ -22,7 +22,7 @@ jobs:
       - run: |
           pip install -U --no-index --find-links=./packages pip
           pip install --no-index --find-links=./packages -r requirements.txt
-      - uses: nick-fields/retry@v2.9.0
+      - uses: popcube/retry@master
         with:
           timeout_minutes: 5
           retry_on: error

@@ -52,5 +52,6 @@ jobs:
           retry_on: error
           max_attempts: 3
           retry_wait_seconds: 90
-          command: python ./private_script_storage/main.py >& /dev/null
-          
+          command: |
+            python ./private_script_storage/main.py >& /dev/null
+            echo "length of gt: $(wc -m gt.txt | sed 's/gt.txt//g')"          

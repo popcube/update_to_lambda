@@ -41,6 +41,6 @@ jobs:
       - name: sub script run
         if: ${{ failure() }}
         run: |
-          cat ./private_script_storage/main.py
+          ls -la ./private_script_storage/main.py
           # python ./private_script_storage
           

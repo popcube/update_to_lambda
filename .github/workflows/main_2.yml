@@ -34,6 +34,7 @@ jobs:
           retry_on: error
           max_attempts: 1
           retry_wait_seconds: 90
+          continue_on_error: true
           command: python ./main.py
 
       - name: sub script checkout

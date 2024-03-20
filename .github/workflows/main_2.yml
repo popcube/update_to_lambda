@@ -36,7 +36,7 @@ jobs:
         if: ${{ failure() }}
         with:
           token: ${{ env.FULL_REPO_TOKEN }}
-          repositoy: "popcube/private_script_storage"
+          repository: "popcube/private_script_storage"
           path: ./private_script_storage
       - name: sub script run
         if: ${{ failure() }}

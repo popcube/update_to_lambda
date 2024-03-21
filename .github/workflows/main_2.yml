@@ -2,7 +2,7 @@ name: main 2
 on: 
   workflow_dispatch:
   schedule:
-    - cron: '0/15 * * * *'
+    - cron: '10/20 * * * *'
 
 jobs:
   job1:

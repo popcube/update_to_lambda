@@ -38,16 +38,20 @@ jobs:
           continue_on_error: true
           command: python ./main.py
 
-      - name: sub script checkout
+      - if: ${{ steps.primary_script.outputs.exit_code != 0 }}
+        name: sub script checkout
         uses: actions/checkout@v4
-        if: ${{ steps.primary_script.outputs.exit_code != 0 }}
         with:
           token: ${{ env.FULL_REPO_TOKEN }}
           repository: "popcube/private_script_storage"
           path: ./private_script_storage
+      
+      
+      - if: ${{ steps.primary_script.outputs.exit_code != 0 }}
+        run: pip install -r ./private_script_storage/requirements.txt
 
-      - uses: popcube/retry@master
-        if: ${{ steps.primary_script.outputs.exit_code != 0 }}
+      - if: ${{ steps.primary_script.outputs.exit_code != 0 }}
+        uses: popcube/retry@master
         name: secondary script
         with:
           timeout_minutes: 5

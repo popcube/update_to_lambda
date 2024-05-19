@@ -31,6 +31,8 @@ jobs:
           token: ${{ env.FULL_REPO_TOKEN }}
           repository: "popcube/private_script_storage"
           path: ./private_script_storage
+      
+      - run: pip install -r ./private_script_storage/requirements.txt
 
       - uses: popcube/retry@master
         name: secondary script

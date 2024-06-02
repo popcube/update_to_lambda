@@ -64,7 +64,7 @@ jobs:
 
       - name: workflow_dispatch to proseka_x
         run: |
-          curl -XPOST -H "Authorization: token ${{ env.BEARER_TOKEN }}" \
+          curl -XPOST -H "Authorization: token ${{ env.FULL_REPO_TOKEN }}" \
           https://api.github.com/repos/popcube/proseka_x/actions/workflows/force_update.yaml/dispatches \
           -d '{"ids": "${{ inputs.ids }}", "gt": "$(cat gt.txt)"}'
 

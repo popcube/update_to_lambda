@@ -1,6 +1,10 @@
 name: manual update
 on:
   workflow_dispatch:
+    inputs:
+      ids:
+        required: true
+        type: string
 
 jobs:
   job1:
@@ -58,6 +62,10 @@ jobs:
             echo "length of gt: $(wc -m gt.txt | sed 's/gt.txt//g')" || \
             echo "gt not found. exitting..." >&2 | exit 1
 
-      - name: workflow_call to proseka_x
-        run: python ./update_to_prosekax.py
+      - name: workflow_dispatch to proseka_x
+        run: |
+          curl -XPOST -H "Authorization: token ${{ env.BEARER_TOKEN }}" \
+          https://api.github.com/repos/popcube/proseka_x/actions/workflows/force_update.yaml/dispatches \
+          -d '{"ids": "${{ inputs.ids }}", "gt": "$(cat gt.txt)"}'
+
            

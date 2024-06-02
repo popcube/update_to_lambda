@@ -1,8 +1,6 @@
 name: main 2
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: '10/15 * * * *'
+  workflow_call:
 
 jobs:
   job1:
@@ -22,6 +20,9 @@ jobs:
           python-version: '3.x'
 
       - uses: actions/checkout@v4
+        with:
+          token: ${{ env.FULL_REPO_TOKEN }}
+          repository: "popcube/update_to_lambda"
 
       - run: |
           pip install -U --no-index --find-links=./packages pip

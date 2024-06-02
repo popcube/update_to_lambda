@@ -4,11 +4,8 @@ import sys
 import json
 import os
 
-client = boto3.client('lambda')
-
 activate_url = os.environ["ACTIVATE_URL"]
 bearer_token = os.environ["BEARER_TOKEN"]
-aws_f_name = os.environ["AWS_F_NAME"]
 
 def main():
     gt = ""
@@ -32,15 +29,22 @@ def main():
         print()
         print(e)
     print("length of gt: " + str(len(gt)))
-
-    client.update_function_configuration(
-        FunctionName=aws_f_name,
-        Environment={
-            'Variables': {
-                'x_gt': gt
+    
+    if os.environ.get("AWS_ACCESS_KEY_ID") and os.environ.get("AWS_SECRET_ACCESS_KEY") and os.environ.get("AWS_DEFAULT_REGION"):
+        aws_f_name = os.environ["AWS_F_NAME"]
+        client = boto3.client('lambda')
+        client.update_function_configuration(
+            FunctionName=aws_f_name,
+            Environment={
+                'Variables': {
+                    'x_gt': gt
+                }
             }
-        }
-    )
+        )
+    
+    else:
+        with open("./gt.txt", "w", encoding="utf-8") as f:
+            f.write(gt)
 
 
 main()

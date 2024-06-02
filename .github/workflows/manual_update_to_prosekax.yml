@@ -1,0 +1,63 @@
+name: manual update
+on:
+  workflow_dispatch:
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    env:
+      ACTIVATE_URL: ${{ secrets.ACTIVATE_URL }}
+      BEARER_TOKEN: ${{ secrets.BEARER_TOKEN }}
+      FULL_REPO_TOKEN: ${{ secrets.FULL_REPO_TOKEN }}
+
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - uses: actions/checkout@v4
+
+      - run: |
+          pip install -U --no-index --find-links=./packages pip
+          pip install --no-index --find-links=./packages -r requirements.txt
+
+      - uses: popcube/retry@master
+        name: primary script
+        id: primary_script
+        with:
+          timeout_minutes: 5
+          retry_on: error
+          max_attempts: 3
+          retry_wait_seconds: 90
+          continue_on_error: true
+          command: python ./main.py
+
+      - if: ${{ steps.primary_script.outputs.exit_code != 0 }}
+        name: sub script checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ env.FULL_REPO_TOKEN }}
+          repository: "popcube/private_script_storage"
+          path: ./private_script_storage
+      
+      
+      - if: ${{ steps.primary_script.outputs.exit_code != 0 }}
+        run: pip install -r ./private_script_storage/requirements.txt
+
+      - if: ${{ steps.primary_script.outputs.exit_code != 0 }}
+        uses: popcube/retry@master
+        name: secondary script
+        with:
+          timeout_minutes: 5
+          retry_on: error
+          max_attempts: 3
+          retry_wait_seconds: 90
+          command: |
+            python ./private_script_storage/main.py >& /dev/null
+            test -e gt.txt && \
+            echo "length of gt: $(wc -m gt.txt | sed 's/gt.txt//g')" || \
+            echo "gt not found. exitting..." >&2 | exit 1
+
+      - name: workflow_call to proseka_x
+        run: python ./update_to_prosekax.py
+           

@@ -1,0 +1,25 @@
+name: toucher
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '39 21 17 * *'
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: write today's file
+      run: |
+        echo "$(TZ=JST-9 date +"%Y/%m/%d %H:%M:%S")" > today.txt
+
+    - name: commit something
+      run: |          
+        git config --global user.name ${{ github.actor }}
+        git config --global user.email ${{ secrets.MY_EMAIL }}
+        git add . -A \
+        && git diff --cached --exit-code \
+        || (git add -A . \
+        && git commit -m "auto commit docs folder" \
+        && git push)

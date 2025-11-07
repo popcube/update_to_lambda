@@ -13,10 +13,10 @@ def main():
     header_dic = {
         "Authorization": "Bearer " + bearer_token
     }
-    r = requests.post(activate_url, headers=header_dic)
+    r = requests.get(activate_url, headers=header_dic)
 
     if not r.ok:
-        print("activate url post failed")
+        print("activate url get failed")
         print(r.status_code)
         # print(r.headers)
         print(r.text)

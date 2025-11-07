@@ -7,6 +7,14 @@ import os
 activate_url = os.environ["ACTIVATE_URL"]
 bearer_token = os.environ["BEARER_TOKEN"]
 
+# extract gt from HTML text
+def get_token_from_texts(token_name, r_text):
+    token_index = r_text.find(token_name + "=")
+    if token_index == 0: return ""
+    token_end_index = r_text[token_index:].find(";")
+    if token_end_index == -1: return ""
+    return r_text[token_index+len(token_name)+1: token_end_index + token_index]
+
 def main():
     gt = ""
 
@@ -30,7 +38,8 @@ def main():
         sys.exit(1)
     
     try:
-        gt = json.loads(r.text)["guest_token"]
+        # gt = json.loads(r.text)["guest_token"]
+        gt = get_token_from_texts("gt", r.text)
     except Exception as e:
         print("gt was not included in reponse from activate url")
         print()

@@ -10,8 +10,15 @@ bearer_token = os.environ["BEARER_TOKEN"]
 def main():
     gt = ""
 
+    # header_dic = {
+    #     "Authorization": "Bearer " + bearer_token
+    # }
     header_dic = {
-        "Authorization": "Bearer " + bearer_token
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+        "sec-ch-ua": "Google Chrome 122.0.0.0",
+        "sec-ch-ua-arch": "Intel",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "Windows"
     }
     r = requests.get(activate_url, headers=header_dic)
 

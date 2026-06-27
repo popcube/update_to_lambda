@@ -43,8 +43,10 @@ def main():
     try:
         # gt = json.loads(r.text)["guest_token"]
         gt = get_token_from_texts("guest_token", r.text)
+        if len(gt) == 0:
+            raise Exception("length of gt is zero!")
     except Exception as e:
-        print("gt was not included in reponse from activate url")
+        print("ERROR at gt fetch")
         print()
         print(e)
     print("length of gt: " + str(len(gt)))

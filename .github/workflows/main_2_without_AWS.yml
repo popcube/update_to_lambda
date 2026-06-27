@@ -1,6 +1,6 @@
 name: main 2 without AWS
 on:
-  workflow_call:
+  workflow_dispatch:
 
 jobs:
   job1:

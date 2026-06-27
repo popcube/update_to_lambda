@@ -29,6 +29,7 @@ def main():
         "sec-ch-ua-platform": "Windows"
     }
     r = requests.get(activate_url, headers=header_dic)
+    print(r.text)
 
     if not r.ok:
         print("activate url get failed")

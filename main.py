@@ -8,12 +8,14 @@ activate_url = os.environ["ACTIVATE_URL"]
 bearer_token = os.environ["BEARER_TOKEN"]
 
 # extract gt from HTML text
+# def get_token_from_texts(token_name, r_text):
+#     token_index = r_text.find(token_name + "=")
+#     if token_index == 0: return ""
+#     token_end_index = r_text[token_index:].find(";")
+#     if token_end_index == -1: return ""
+#     return r_text[token_index+len(token_name)+1: token_end_index + token_index]
 def get_token_from_texts(token_name, r_text):
-    token_index = r_text.find(token_name + "=")
-    if token_index == 0: return ""
-    token_end_index = r_text[token_index:].find(";")
-    if token_end_index == -1: return ""
-    return r_text[token_index+len(token_name)+1: token_end_index + token_index]
+    return json.loads(r_text)[token_name]
 
 def main():
     gt = ""
@@ -28,7 +30,7 @@ def main():
         "sec-ch-ua-mobile": "?0",
         "sec-ch-ua-platform": "Windows"
     }
-    r = requests.get(activate_url, headers=header_dic)
+    r = requests.post(activate_url, headers=header_dic)
     print(r.text)
 
     if not r.ok:
@@ -40,7 +42,7 @@ def main():
     
     try:
         # gt = json.loads(r.text)["guest_token"]
-        gt = get_token_from_texts("gt", r.text)
+        gt = get_token_from_texts("guest_token", r.text)
     except Exception as e:
         print("gt was not included in reponse from activate url")
         print()
